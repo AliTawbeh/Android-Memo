@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="et_max_lines">3</integer>
+    <integer name="et_min_lines">1</integer>
+    <integer name="et_max_length">140</integer>
+    <dimen name="et_margin">5dp</dimen>
+
+    <dimen name="btn_horizontal_margin">2dp</dimen>
+
+    <dimen name="memo_list_horizontal_padding">16dp</dimen>
+    <dimen name="memo_list_padding_top">16dp</dimen>
+    <dimen name="memo_list_padding_bottom">8dp</dimen>
+</resources>

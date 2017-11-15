@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.wearsafe.memo.MainActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_memo"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="@string/et_hint"
+            android:layout_marginStart="@dimen/et_margin"
+            android:inputType="textMultiLine"
+            android:maxLines="@integer/et_max_lines"
+            android:minLines="@integer/et_min_lines"
+            android:lines="@integer/et_max_lines"
+            android:maxLength="@integer/et_max_length"/>
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_marginRight="@dimen/btn_horizontal_margin"
+            android:layout_marginLeft="@dimen/btn_horizontal_margin"
+            android:layout_marginStart="@dimen/btn_horizontal_margin"
+            android:layout_marginEnd="@dimen/btn_horizontal_margin"
+            android:text="@string/btn_label"
+            android:onClick="onClickSaveMemo"
+            />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_memos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

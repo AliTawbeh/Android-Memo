@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Memo</string>
+    <string name="btn_label">Save</string>
+    <string name="et_hint">Type a memo</string>
+    <string name="memo_added">The memo you entered is saved</string>
+    <string name="invalid_input">Your memo cannot contain HTML tags.</string>
+</resources>
