@@ -1,4 +1,4 @@
-package com.wearsafe.memo.data;
+package com.wearsafe.memo.model;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;

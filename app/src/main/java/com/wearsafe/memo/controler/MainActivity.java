@@ -1,4 +1,4 @@
-package com.wearsafe.memo;
+package com.wearsafe.memo.controler;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -16,7 +16,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.wearsafe.memo.data.MemoContract;
+import com.wearsafe.memo.R;
+import com.wearsafe.memo.model.MemoContract;
+import com.wearsafe.memo.utils.StringHelper;
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {

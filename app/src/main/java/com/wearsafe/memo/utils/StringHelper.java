@@ -1,4 +1,4 @@
-package com.wearsafe.memo;
+package com.wearsafe.memo.utils;
 
 import android.util.Log;
 
