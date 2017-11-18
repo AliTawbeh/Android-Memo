@@ -1,4 +1,4 @@
-package com.wearsafe.memo;
+package com.wearsafe.memo.presenter;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.wearsafe.memo.data.MemoContract;
+import com.wearsafe.memo.R;
+import com.wearsafe.memo.model.MemoContract;
 
 /**
  * Created by Ali on 05-Nov-17.
