@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.wearsafe.memo.viewmodel.MemoViewModel"/>
+    </data>
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.wearsafe.memo.MainActivity">
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +27,9 @@
             android:maxLines="@integer/et_max_lines"
             android:minLines="@integer/et_min_lines"
             android:lines="@integer/et_max_lines"
-            android:maxLength="@integer/et_max_length"/>
+            android:maxLength="@integer/et_max_length"
+            android:text="@{viewModel.memoDescription}"
+            app:addTextChangedListener="@{viewModel.watcher}"/>
 
         <Button
             android:id="@+id/btn_send"
@@ -33,7 +41,7 @@
             android:layout_marginStart="@dimen/btn_horizontal_margin"
             android:layout_marginEnd="@dimen/btn_horizontal_margin"
             android:text="@string/btn_label"
-            android:onClick="onClickSaveMemo"
+            android:onClick="@{(v)->viewModel.onClickSaveMemo(v)}"
             />
 
     </LinearLayout>
@@ -41,5 +49,12 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_memos"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:itemBinder="@{viewModel.itemBinder}"
+        app:clickHandler="@{viewModel.clickHandler}"
+        app:longClickHandler="@{viewModel.longClickHandler}"
+        app:itemTouchHandler="@{viewModel.itemTouchHandler}"
+        app:items="@{viewModel.mItems}"
+        />
 </LinearLayout>
+</layout>

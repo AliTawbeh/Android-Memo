@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="@dimen/memo_list_padding_top"
-    android:paddingLeft="@dimen/memo_list_horizontal_padding"
-    android:paddingRight="@dimen/memo_list_horizontal_padding"
-    android:paddingBottom="@dimen/memo_list_padding_bottom">
-    <TextView
-        android:id="@+id/tv_memo"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="memo"
+            type="com.wearsafe.memo.model.Memo"/>
+    </data>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/TextAppearance.AppCompat.Medium"
-        />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
-</LinearLayout>
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/memo_list_padding_bottom"
+        android:paddingLeft="@dimen/memo_list_horizontal_padding"
+        android:paddingRight="@dimen/memo_list_horizontal_padding"
+        android:paddingTop="@dimen/memo_list_padding_top">
+        <TextView
+            android:id="@+id/tv_memo"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{memo.description}"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+    </LinearLayout>
+</layout>

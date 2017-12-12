@@ -2,13 +2,17 @@ package com.wearsafe.memo;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.wearsafe.memo.data.MemoContract;
+
+import com.wearsafe.memo.model.MemoContract;
+
+
 
 /**
  * Created by Ali on 05-Nov-17.
@@ -64,8 +68,9 @@ public class MemoCursorAdapter extends RecyclerView.Adapter<MemoCursorAdapter.Me
         holder.itemView.setTag(id);
         //setting the memo description
         String description = mCursor.getString(indexDesc);
-        holder.memoDescription.setText(description);
 
+        //holder.getBinding().setVariable(BR.memoDescription,description);
+        holder.getBinding().executePendingBindings();
     }
 
     /**
@@ -96,11 +101,16 @@ public class MemoCursorAdapter extends RecyclerView.Adapter<MemoCursorAdapter.Me
      * Memo description
      */
     class MemoViewHolder extends RecyclerView.ViewHolder{
-        TextView memoDescription;
+        private ViewDataBinding binding;
 
         public MemoViewHolder(View itemView) {
             super(itemView);
-            memoDescription = itemView.findViewById(R.id.tv_memo);
+            binding= DataBindingUtil.bind(itemView);
+        }
+
+        public ViewDataBinding getBinding(){
+            return binding;
         }
     }
+
 }
