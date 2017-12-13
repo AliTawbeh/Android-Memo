@@ -26,13 +26,16 @@ import java.util.List;
 
 public class DataBindingRVAdapter<T> extends RecyclerView.Adapter<DataBindingRVAdapter.DataBindingViewHolder>
 implements View.OnClickListener, View.OnLongClickListener, OnItemTouchListener{
+    //TAG ID used to attach the item <T> to the viewHolder
     private static final int ITEM_TAG = -124;
+    //Observable list of items that populates the recyclerView
+    @Nullable
+    private ObservableList<T> mItems;
+    //The callback that is called by ObservableList when the list has changed.
     @Nullable
     private final CustomOnListChangedCallback<T> mCustomOnListChangedCallback;
     @Nullable
     private LayoutInflater mInflater;
-    @Nullable
-    private ObservableList<T> mItems;
     @Nullable
     private final ItemBinder mItemBinder;
     @Nullable
@@ -59,14 +62,17 @@ implements View.OnClickListener, View.OnLongClickListener, OnItemTouchListener{
 
     @Override
     public void onBindViewHolder(DataBindingViewHolder holder, int position) {
-        if(mItems ==null)
+        //if the list of items is null or empty do nothing
+        if(mItems ==null || mItems.size()==0)
             return;
+        //Get the item at the position
         T item = mItems.get(position);
         if(item==null)
             return;
+        //Pass the variable item to the view holder, where the viewHolder's layout populates the views
         if(mItemBinder !=null)
             holder.viewDataBinding.setVariable(mItemBinder.getBindingVariable(),item);
-
+        //Attach the item to the viewHolder so it can be used for example when we want to delete it in swipe event
         holder.viewDataBinding.getRoot().setTag(ITEM_TAG,item);
         holder.viewDataBinding.getRoot().setOnClickListener(this);
         holder.viewDataBinding.getRoot().setOnLongClickListener(this);
@@ -81,6 +87,8 @@ implements View.OnClickListener, View.OnLongClickListener, OnItemTouchListener{
 
     @Override
     public int getItemViewType(int position) {
+        //This can be used to return different layouts depending on the item type in the position,
+        //in this app we only have on item type
         return mItemBinder!=null ? mItemBinder.getLayoutRes():super.getItemViewType(position);
     }
 
@@ -92,17 +100,20 @@ implements View.OnClickListener, View.OnLongClickListener, OnItemTouchListener{
 
     //TODO create an interface for the following methods
     public void setItems(@Nullable List<T> items){
+        //if same reference do nothing
         if(items== mItems)
             return;
-
+        //if mItems is not null, then clear then remove the observable list listener and notify that the list is cleared
         if(mItems != null){
             mItems.removeOnListChangedCallback(mCustomOnListChangedCallback);
             notifyItemRangeRemoved(0, mItems.size());
         }
 
         if(items instanceof ObservableList){
+            //if items is observable, then assign it to mItems, notify that insertion happened
+            // and add observable list callback
             mItems = (ObservableList<T>) items;
-            notifyItemRangeInserted(0, mItems.size());//TODO try to delete this line and see what happens
+            notifyItemRangeInserted(0, mItems.size());
             mItems.addOnListChangedCallback(mCustomOnListChangedCallback);
         }else if(items !=null){
             mItems = new ObservableArrayList<>();
@@ -137,12 +148,14 @@ implements View.OnClickListener, View.OnLongClickListener, OnItemTouchListener{
 
     @Override
     public void onClick(View view) {
+        //pass the click notification to handler with the designated item
         if(mClickHandler!=null)
             mClickHandler.onClick((T) view.getTag(ITEM_TAG));
     }
 
     @Override
     public boolean onLongClick(View view) {
+        //pass the long click notification to handler with the designated item
         if(mLongClickHandler!=null) {
             mLongClickHandler.onLongClick((T) view.getTag(ITEM_TAG));
             return true;
@@ -164,6 +177,7 @@ implements View.OnClickListener, View.OnLongClickListener, OnItemTouchListener{
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+        //set a reference for the recyclerView in the ListChangedCallback
         mCustomOnListChangedCallback.setRecyclerView(recyclerView);
     }
 
@@ -220,6 +234,7 @@ implements View.OnClickListener, View.OnLongClickListener, OnItemTouchListener{
             if(adapter!=null) {
                 adapter.notifyItemRangeInserted(positionStart, itemCount);
                 if(mRecyclerView!=null){
+                    //scroll to top after insertion
                     mRecyclerView.smoothScrollToPosition(positionStart);
                 }
             }

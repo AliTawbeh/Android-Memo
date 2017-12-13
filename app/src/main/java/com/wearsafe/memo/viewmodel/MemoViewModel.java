@@ -41,8 +41,12 @@ public class MemoViewModel extends BaseObservable implements LoaderManager.Loade
     private static final int TASK_LOADER_ID = 0;
     //Constant for logging
     public static final String TAG = MemoViewModel.class.getSimpleName();
+    //Android Activity
     private AndroidMainView mAndroidMainView;
+    //Android Activity too
     private MessageHelper mMessageHelper;
+    //The field that will be attached to the edit text and the watcher that will update it when the
+    //user types in
     @Bindable
     public final ObservableField<String> memoDescription = new ObservableField<>();
     public TextWatcher watcher(){ return new TextWatcher() {
@@ -57,8 +61,10 @@ public class MemoViewModel extends BaseObservable implements LoaderManager.Loade
         @Override public void afterTextChanged(Editable s) {}
     };
     }
+    //RecyclerView's items
     @Bindable
     public ObservableArrayList<Memo> mItems;
+    //ItemBinder defines the layout and the variable for the viewHolder
     public ItemBinder itemBinder = new ItemBinder() {
         @Override
         public int getBindingVariable() {
@@ -75,7 +81,6 @@ public class MemoViewModel extends BaseObservable implements LoaderManager.Loade
         mAndroidMainView = androidMainView;
         mMessageHelper = messageHelper;
         mItems = new ObservableArrayList<>();
-        memoDescription.set("");
     }
 
     public ClickHandler<Memo> clickHandler = new ClickHandler<Memo>() {
@@ -108,6 +113,7 @@ public class MemoViewModel extends BaseObservable implements LoaderManager.Loade
             mAndroidMainView.getContext().getContentResolver().delete(uri, null, null);
             //Refreshing the loader in order to update the data in the recycler view after delete
             //mAndroidMainView.getViewLoaderManager().restartLoader(TASK_LOADER_ID, null, MemoViewModel.this);
+            //after we delete from the DB we remove the item from the observable list
             mItems.remove(item);
         }
     };
@@ -212,6 +218,7 @@ public class MemoViewModel extends BaseObservable implements LoaderManager.Loade
             //restart the loader in order to refresh the data in the recyclerView
             //mAndroidMainView.getViewLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
             String memoID = uri.getPathSegments().get(MemoContract.MemoEntry.COLIMN_DESCRIPTION_INDEX);
+            //Add the inserted memo to the list
             mItems.add(0, new Memo(Integer.parseInt(memoID),input));
         }
 
