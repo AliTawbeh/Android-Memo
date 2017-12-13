@@ -31,5 +31,9 @@ public class MemoContract {
 
         //description column
         public static final String COLUMN_DESCRIPTION = "description";
+
+        //Columns indexes
+        public static final int COLIMN_ID_INDEX=0;
+        public static final int COLIMN_DESCRIPTION_INDEX=1;
     }
 }

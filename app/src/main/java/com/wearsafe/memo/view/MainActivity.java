@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements AndroidMainView, 
 
     @Override
     public void showMessage(String message) {
-        Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

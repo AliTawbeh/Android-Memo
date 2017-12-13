@@ -1,6 +1,7 @@
 package com.wearsafe.memo.viewmodel;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -106,7 +107,8 @@ public class MemoViewModel extends BaseObservable implements LoaderManager.Loade
             uri = uri.buildUpon().appendPath(memoId).build();
             mAndroidMainView.getContext().getContentResolver().delete(uri, null, null);
             //Refreshing the loader in order to update the data in the recycler view after delete
-            mAndroidMainView.getViewLoaderManager().restartLoader(TASK_LOADER_ID, null, MemoViewModel.this);
+            //mAndroidMainView.getViewLoaderManager().restartLoader(TASK_LOADER_ID, null, MemoViewModel.this);
+            mItems.remove(item);
         }
     };
 
@@ -208,7 +210,9 @@ public class MemoViewModel extends BaseObservable implements LoaderManager.Loade
             //Clear the edit text
             clearUI();
             //restart the loader in order to refresh the data in the recyclerView
-            mAndroidMainView.getViewLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
+            //mAndroidMainView.getViewLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
+            String memoID = uri.getPathSegments().get(MemoContract.MemoEntry.COLIMN_DESCRIPTION_INDEX);
+            mItems.add(0, new Memo(Integer.parseInt(memoID),input));
         }
 
     }

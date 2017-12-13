@@ -7,6 +7,7 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,6 +161,12 @@ implements View.OnClickListener, View.OnLongClickListener, OnItemTouchListener{
     }
     //End of methods to be added to the interface
 
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mCustomOnListChangedCallback.setRecyclerView(recyclerView);
+    }
+
     /**
      * View Holder Class
      */
@@ -180,14 +187,20 @@ implements View.OnClickListener, View.OnLongClickListener, OnItemTouchListener{
 
         //TODO try to declare DataBindingRVAdapter as weak reference
         private final DataBindingRVAdapter<T> dataBindingRVAdapter;
+        RecyclerView mRecyclerView;
 
         public  CustomOnListChangedCallback(DataBindingRVAdapter<T> adapter){
             dataBindingRVAdapter = adapter;
         }
 
+        void setRecyclerView(RecyclerView recyclerView){
+            this.mRecyclerView = recyclerView;
+        }
+
         @Override
         public void onChanged(ObservableList sender) {
             RecyclerView.Adapter adapter = dataBindingRVAdapter;
+            Log.d("DataBindingRVAdapter","CustomOnListChangedCallback onChanged");
             if(adapter!=null)
                 adapter.notifyDataSetChanged();
         }
@@ -195,6 +208,7 @@ implements View.OnClickListener, View.OnLongClickListener, OnItemTouchListener{
         @Override
         public void onItemRangeChanged(ObservableList sender, int positionStart, int itemCount) {
             RecyclerView.Adapter adapter = dataBindingRVAdapter;
+            Log.d("DataBindingRVAdapter","CustomOnListChangedCallback onItemRangeChanged");
             if(adapter!=null)
                 adapter.notifyItemRangeChanged(positionStart,itemCount);
         }
@@ -202,13 +216,19 @@ implements View.OnClickListener, View.OnLongClickListener, OnItemTouchListener{
         @Override
         public void onItemRangeInserted(ObservableList sender, int positionStart, int itemCount) {
             RecyclerView.Adapter adapter = dataBindingRVAdapter;
-            if(adapter!=null)
-                adapter.notifyItemRangeInserted(positionStart,itemCount);
+            Log.d("DataBindingRVAdapter","CustomOnListChangedCallback onItemRangeInserted");
+            if(adapter!=null) {
+                adapter.notifyItemRangeInserted(positionStart, itemCount);
+                if(mRecyclerView!=null){
+                    mRecyclerView.smoothScrollToPosition(positionStart);
+                }
+            }
         }
 
         @Override
         public void onItemRangeMoved(ObservableList sender, int fromPosition, int toPosition, int itemCount) {
             RecyclerView.Adapter adapter = dataBindingRVAdapter;
+            Log.d("DataBindingRVAdapter","CustomOnListChangedCallback onItemRangeMoved");
             if(adapter!=null)
                 adapter.notifyItemMoved(fromPosition,toPosition);
         }
@@ -216,6 +236,7 @@ implements View.OnClickListener, View.OnLongClickListener, OnItemTouchListener{
         @Override
         public void onItemRangeRemoved(ObservableList sender, int positionStart, int itemCount) {
             RecyclerView.Adapter adapter = dataBindingRVAdapter;
+            Log.d("DataBindingRVAdapter","CustomOnListChangedCallback onItemRangeRemoved");
             if(adapter!=null)
                 adapter.notifyItemRangeRemoved(positionStart,itemCount);
         }

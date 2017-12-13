@@ -49,7 +49,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_memos"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:itemBinder="@{viewModel.itemBinder}"
         app:clickHandler="@{viewModel.clickHandler}"
         app:longClickHandler="@{viewModel.longClickHandler}"
